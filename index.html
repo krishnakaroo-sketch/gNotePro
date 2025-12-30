@@ -11,9 +11,11 @@
         :root {
             --green-sheet: #f4fff4;
             --green-sheet-lines: rgba(76, 175, 80, 0.08);
-            --official-margin: rgba(229, 57, 53, 0.25);
+            --official-margin: rgba(229, 57, 53, 0.2);
             --accent-gold: #c5a059;
             --imperial-navy: #0c2340;
+            --a4-width: 210mm;
+            --a4-height: 297mm;
         }
         body { 
             font-family: 'Inter', sans-serif; 
@@ -22,56 +24,45 @@
         }
         .official-font { font-family: 'Crimson Pro', serif; }
         
-        @keyframes shine {
-            from { background-position: -200% center; }
-            to { background-position: 200% center; }
-        }
-        .text-shine {
-            background: linear-gradient(90deg, #b8860b 0%, #ffd700 25%, #fff 50%, #ffd700 75%, #b8860b 100%);
-            background-size: 200% auto;
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            animation: shine 5s linear infinite;
-        }
-
         .paper-texture {
             background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+        }
+
+        .a4-page-container {
+            width: var(--a4-width);
+            min-height: var(--a4-height);
+            margin: 10px auto;
+            background: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .green-sheet {
             background-color: var(--green-sheet);
             background-image: linear-gradient(var(--green-sheet-lines) 1px, transparent 1px);
-            background-size: 100% 2.4rem;
+            background-size: 100% 2.2rem;
             position: relative;
-            padding-left: 3rem !important;
-            padding-right: 1.5rem !important;
-            line-height: 2.4rem !important;
-            min-height: 800px;
+            padding-left: 2.8rem !important;
+            padding-right: 1rem !important;
+            padding-top: 1rem !important;
+            padding-bottom: 2rem !important;
+            line-height: 2.2rem !important;
+            flex: 1;
+            z-index: 1;
         }
 
-        @media (min-width: 1024px) {
-            .green-sheet {
-                padding-left: 7rem !important;
-                padding-right: 3rem !important;
-                min-height: 1000px;
-            }
-        }
-        
         .green-sheet::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 2.5rem;
+            left: 2.2rem;
             bottom: 0;
-            width: 1.5px;
+            width: 1.2px;
             background-color: var(--official-margin);
-        }
-
-        @media (min-width: 1024px) {
-            .green-sheet::before {
-                left: 6rem;
-            }
+            z-index: 10;
         }
 
         .statutory-watermark {
@@ -82,98 +73,101 @@
             opacity: 0.03;
             pointer-events: none;
             user-select: none;
-            width: 300px;
+            width: 400px;
             filter: grayscale(1);
+            z-index: 0;
         }
 
-        @media (min-width: 1024px) {
-            .statutory-watermark {
-                width: 450px;
-            }
-        }
-
-        .official-stamp {
-            border: 3px double currentColor;
-            padding: 4px 16px;
-            text-transform: uppercase;
+        /* Official Statutory Stamp Styles */
+        .statutory-stamp {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            padding: 8px 20px;
+            border: 4px double;
             font-weight: 900;
-            border-radius: 4px;
-            display: inline-block;
-            transform: rotate(-10deg);
-            opacity: 0.8;
-            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
             letter-spacing: 0.2em;
+            transform: rotate(-10deg);
             mix-blend-mode: multiply;
-            background-color: transparent !important;
-            text-align: center;
-            font-size: 0.7rem;
+            opacity: 0.8;
+            user-select: none;
+            pointer-events: none;
+            z-index: 50;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        .stamp-approved { color: #059669; border-color: #059669; }
+        .stamp-pending { color: #2563eb; border-color: #2563eb; }
+        .stamp-returned { color: #d97706; border-color: #d97706; }
+        .stamp-rejected { color: #dc2626; border-color: #dc2626; }
+
+        .signature-block, .note-item-header, .summary-section {
+            break-inside: avoid;
         }
 
-        @media (min-width: 1024px) {
-            .official-stamp {
-                font-size: 0.9rem;
-            }
+        .report-table th {
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 8px 6px;
+            background-color: #0c2340;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        
-        .stamp-approved { color: #065f46; border-color: #065f46; }
-        .stamp-rejected { color: #991b1b; border-color: #991b1b; }
-        
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        @keyframes cardEnter {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-card {
-            animation: cardEnter 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        .report-table td {
+            font-size: 9px;
+            padding: 8px 6px;
+            border: 1px solid #e2e8f0;
+            font-weight: 600;
         }
 
         @media print {
             @page {
-                margin: 0.5cm;
-                size: A4 portrait;
+                size: A4;
+                margin: 0;
             }
             body {
                 background: white !important;
-                padding: 0 !important;
                 margin: 0 !important;
+                padding: 0 !important;
             }
-            .no-print, header, footer, nav, button, select, textarea, aside {
+            .no-print {
                 display: none !important;
             }
-            .printable-file {
-                display: block !important;
-                width: 100% !important;
-                border: none !important;
-                box-shadow: none !important;
-                margin: 0 !important;
+            #root > div {
                 padding: 0 !important;
+                margin: 0 !important;
+                background: white !important;
             }
-            .letter-head {
-                display: block !important;
-                border-bottom: 2px solid #000 !important;
-                padding: 10px 0 !important;
-                margin-bottom: 10px !important;
+            .a4-page-container {
+                width: 100% !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                page-break-after: always !important;
+                border: none !important;
+                min-height: 100vh !important;
             }
             .green-sheet {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
-                background-color: var(--green-sheet) !important;
-                padding-left: 1.2in !important;
-                padding-right: 0.5in !important;
-                min-height: auto !important;
+                padding-left: 18mm !important;
+                padding-right: 6mm !important;
+                padding-top: 5mm !important;
             }
             .green-sheet::before {
+                left: 14mm !important;
+            }
+            .statutory-stamp {
+                opacity: 1 !important;
                 -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                left: 1.1in !important;
             }
         }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 
 <link rel="stylesheet" href="/index.css">
@@ -188,7 +182,7 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/assets/index-azhPlnnO.js"></script>
+  <script type="module" crossorigin src="/assets/index-BsJh2Gyw.js"></script>
 </head>
 <body class="bg-[#f1f5f9] text-slate-900 overflow-x-hidden">
     <div id="root"></div>
